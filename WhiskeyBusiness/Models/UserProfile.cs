@@ -22,8 +22,15 @@ namespace WhiskeyBusiness.Models
         [MaxLength(255)]
         public string Email { get; set; }
 
-        public string image_url { get; set; }
+        public string ImageUrl { get; set; }
 
+        public string FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
     }
 }
  

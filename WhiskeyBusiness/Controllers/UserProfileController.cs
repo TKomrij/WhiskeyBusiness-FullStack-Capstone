@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using WhiskeyBusiness.Repositories;
 using WhiskeyBusiness.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WhiskeyBusiness.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserProfileController : ControllerBase
@@ -15,13 +17,25 @@ namespace WhiskeyBusiness.Controllers
             _userProfileRepository = userProfileRepository;
         }
 
+
+        [HttpGet("{firebaseUserId}")]
+        public IActionResult GetByFirebaseUserId(string firebaseUserId)
+        {
+            var userProfile = _userProfileRepository.GetByFirebaseUserId(firebaseUserId);
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+            return Ok(userProfile);
+        }
+
         [HttpGet]
         public IActionResult Get()
         {
             return Ok(_userProfileRepository.GetAll());
         }
 
-        [HttpGet("{id}")]
+       /* [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var post = _userProfileRepository.GetById(id);
@@ -29,27 +43,16 @@ namespace WhiskeyBusiness.Controllers
             {
                 return NotFound();
             }
-            return Ok(post);
-        }
+            return Ok(post); 
+        } */
 
         [HttpPost]
         public IActionResult UserProfile(UserProfile userProfile)
         {
             _userProfileRepository.Add(userProfile);
             return CreatedAtAction("Get", new { id = userProfile.Id }, userProfile);
-        }
+        } 
 
-
-        [HttpGet("GetOneUserProfileWithPosts/{id}")]
-        public IActionResult GetOneUserProfileWithPosts(int id)
-        {
-            var userProfile = _userProfileRepository.GetUserProfileByIdWithPosts(id);
-            if (userProfile == null)
-            {
-                return NotFound();
-            }
-            return Ok(userProfile);
-        }
 
         [HttpPut("{id}")]
         public IActionResult Put(int id, UserProfile userProfile)

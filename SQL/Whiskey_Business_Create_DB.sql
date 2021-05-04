@@ -12,7 +12,7 @@ CREATE TABLE [UserProfile] (
   [FirstName] nvarchar(255) NOT NULL,
   [LastName] nvarchar(255) NOT NULL,
   [Email] nvarchar(255) NOT NULL,
-  [image_url] nvarchar(255),
+  [ImageUrl] nvarchar(255),
   [FirebaseUserId] nvarchar(28) NOT NULL
 )
 GO

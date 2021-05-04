@@ -1,32 +1,12 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { UserProfileContext, UserProfileProvider } from "../providers/UserProfileProvider";
+import { UserProfileContext, UserProfileProvider } from "../Providers/UserProfileProvider";
 import Login from "./Login/Login"
 import Register from "./Login/Register"
 import Hello from "./Hello";
-import PostProvider from "../providers/PostProvider";
-import PostList from "./Posts/PostList"
-import MyPostList from "./Posts/MyPostList";
-import PostDetails from "./Posts/PostDetails";
-import PostForm from "./Posts/PostForm";
-import CategoryList from "./Category/CategoryList";
-import CategoryProvider from "../providers/CategoryProvider";
-import CategoryForm from "./Category/CategoryForm";
-import DeleteCategory from "./Category/DeleteCatForm";
-import CategoryEditForm from "./Category/CategoryEditForm";
-import TagProvider from "../providers/TagProvider";
-import TagList from "./Tags/TagList";
-import TagForm from "./Tags/TagForm.js"
-import TagDelete from "./Tags/TagDelete";
-import TagEdit from "./Tags/TagEdit";
-import UserProfileList from "./Users/UserProfileList";
-import UserProfileDetails from "./Users/UserProfileDetails"
-import CommentProvider from "../providers/CommentProvider"
-import CommentList from "./Comment/CommentList"
-import CommentForm from "./Comment/CommentForm"
-import DeactivateUserProfile from "./Users/UserDeactivateForm";
-import PostDelete from "./Posts/PostDelete";
-import "./appViews.css"
+import WhiskeyProvider from "../Providers/WhiskeyProvider";
+import WhiskeyList from "./Whiskies/WhiskeyList";
+import WhiskeyDetails from "./Whiskies/WhiskeyDetails";
 
 
 export default function ApplicationViews() {
@@ -37,7 +17,19 @@ export default function ApplicationViews() {
             <Switch>
 
                 <Route path="/" exact>
-                    {isLoggedIn ? <Hello /> : <Redirect to="/login" />}
+                    {isLoggedIn ? < Hello /> : <Redirect to="/login" />}
+                </Route>
+
+                <Route path="/whiskey" exact>
+                    <WhiskeyProvider>
+                        {isLoggedIn ? <WhiskeyList /> : <Redirect to="/login" />}
+                    </WhiskeyProvider>
+                </Route>
+
+                <Route path="/whiskey/:id(\d+)" exact>
+                    <WhiskeyProvider>
+                        {isLoggedIn ? <WhiskeyDetails /> : <Redirect to="/login" />}
+                    </WhiskeyProvider>
                 </Route>
 
                 <Route path="/login">
@@ -49,6 +41,6 @@ export default function ApplicationViews() {
                 </Route>
 
             </Switch>
-        </main>
+        </main >
     );
 };

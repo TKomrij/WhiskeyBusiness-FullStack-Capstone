@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Spinner } from "reactstrap";
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 import "firebase/auth";
 
 export const UserProfileContext = createContext();
@@ -11,6 +11,7 @@ export function UserProfileProvider(props) {
     const [userProfiles, setUserProfiles] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
     const getToken = () => firebase.auth().currentUser.getIdToken();
+
 
     const [isFirebaseReady, setIsFirebaseReady] = useState(false);
     useEffect(() => {
@@ -29,29 +30,6 @@ export function UserProfileProvider(props) {
                 }
             }).then((res) => res.json()))
             .then(setUserProfiles)
-    };
-
-    const getUserProfileById = (id) => {
-        return getToken().then((token) =>
-            fetch(`${apiUrl}/${id}`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }).then((res) => res.json()))
-
-    };
-
-    const deactivateUserProfile = (userProfileId) => {
-        return getToken().then((token) =>
-            fetch(`${apiUrl}/${userProfileId}`, {
-                method: "DELETE",
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-                .then(getAllUserProfiles)
-        )
     };
 
     const login = (email, pw) => {
@@ -80,10 +58,9 @@ export function UserProfileProvider(props) {
             });
     };
 
-
     const getUserProfile = (firebaseUserId) => {
         return getToken().then((token) =>
-            fetch(`${apiUrl}/login/${firebaseUserId}`, {
+            fetch(`${apiUrl}/${firebaseUserId}`, {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -103,8 +80,9 @@ export function UserProfileProvider(props) {
             }).then(resp => resp.json()));
     };
 
+
     return (
-        <UserProfileContext.Provider value={{ isLoggedIn, login, logout, register, getToken, getUserProfile, getAllUserProfiles, userProfiles, setUserProfiles, getUserProfileById, deactivateUserProfile }}>
+        <UserProfileContext.Provider value={{ isLoggedIn, login, logout, register, getToken, getUserProfile, getAllUserProfiles, setUserProfiles }}>
             {isFirebaseReady
                 ? props.children
                 : <Spinner className="app-spinner dark" />}

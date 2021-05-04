@@ -1,10 +1,14 @@
-﻿using WhiskeyBusiness.Models;
+﻿using System.Collections.Generic;
+using WhiskeyBusiness.Models;
 
 namespace WhiskeyBusiness.Repositories
 {
     public interface IUserProfileRepository
     {
-       // void Add(UserProfile userProfile);
+        List<UserProfile> GetAll();
+        void Add(UserProfile userProfile);
         UserProfile GetByFirebaseUserId(string firebaseUserId);
+        UserProfile GetById(int id);
+        void Update(UserProfile userProfile);
     }
 }

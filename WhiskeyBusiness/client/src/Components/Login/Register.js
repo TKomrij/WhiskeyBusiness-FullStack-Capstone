@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import { useHistory } from "react-router-dom";
-import { UserProfileContext } from "../../providers/UserProfileProvider";
+import { UserProfileContext } from "../../Providers/UserProfileProvider";
 
 export default function Register() {
     const history = useHistory();
@@ -9,9 +9,8 @@ export default function Register() {
 
     const [firstName, setFirstName] = useState();
     const [lastName, setLastName] = useState();
-    const [displayName, setDisplayName] = useState();
     const [email, setEmail] = useState();
-    const [imageLocation, setImageLocation] = useState();
+    const [imageUrl, setImageUrl] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
 
@@ -20,7 +19,7 @@ export default function Register() {
         if (password && password !== confirmPassword) {
             alert("Passwords don't match. Do better.");
         } else {
-            const userProfile = { firstName, lastName, displayName, imageLocation, email };
+            const userProfile = { firstName, lastName, imageUrl, email };
             register(userProfile, password)
                 .then(() => history.push("/"));
         }
@@ -38,16 +37,12 @@ export default function Register() {
                     <Input id="lastName" type="text" onChange={e => setLastName(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor="displayName">Display Name</Label>
-                    <Input id="displayName" type="text" onChange={e => setDisplayName(e.target.value)} />
-                </FormGroup>
-                <FormGroup>
                     <Label for="email">Email</Label>
                     <Input id="email" type="text" onChange={e => setEmail(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
-                    <Label htmlFor="imageLocation">Profile Image URL</Label>
-                    <Input id="imageLocation" type="text" onChange={e => setImageLocation(e.target.value)} />
+                    <Label htmlFor="imageUrl">Profile Image URL</Label>
+                    <Input id="imageUrl" type="text" onChange={e => setImageUrl(e.target.value)} />
                 </FormGroup>
                 <FormGroup>
                     <Label for="password">Password</Label>
