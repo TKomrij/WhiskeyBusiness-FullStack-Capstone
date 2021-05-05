@@ -7,6 +7,8 @@ import Hello from "./Hello";
 import WhiskeyProvider from "../Providers/WhiskeyProvider";
 import WhiskeyList from "./Whiskies/WhiskeyList";
 import WhiskeyDetails from "./Whiskies/WhiskeyDetails";
+import NoteProvider from "../Providers/NoteProvider";
+import NoteList from "./Notes/NoteList";
 
 
 export default function ApplicationViews() {
@@ -31,6 +33,18 @@ export default function ApplicationViews() {
                         {isLoggedIn ? <WhiskeyDetails /> : <Redirect to="/login" />}
                     </WhiskeyProvider>
                 </Route>
+
+                <Route path="/notes" exact>
+                    <NoteProvider>
+                        {isLoggedIn ? <NoteList /> : <Redirect to="/login" />}
+                    </NoteProvider>
+                </Route>
+
+                {/* <Route path="/note/:id(\d+)" exact>
+                    <WhiskeyProvider>
+                        {isLoggedIn ? <WhiskeyDetails /> : <Redirect to="/login" />}
+                    </WhiskeyProvider>
+                </Route> */}
 
                 <Route path="/login">
                     <Login />

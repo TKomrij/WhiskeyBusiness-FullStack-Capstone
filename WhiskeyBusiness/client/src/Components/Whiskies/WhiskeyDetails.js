@@ -16,16 +16,14 @@ export const WhiskeyDetails = () => {
     return (
         <div>
             <section className="m-4">
+                <p><strong>{whiskey.title}</strong></p>
                 <p className="text-left px-2">{whiskey.region}</p>
                 <img src={whiskey.img_url} alt={whiskey.title} />
                 <div>
-                    <p>
-                        <strong>{whiskey.title}</strong>
-                    </p>
+
                     <p>{whiskey.description}</p>
                     <p>{whiskey.price}</p>
                     <p>{whiskey.rating}</p>
-
                 </div>
             </section>
         </div>
