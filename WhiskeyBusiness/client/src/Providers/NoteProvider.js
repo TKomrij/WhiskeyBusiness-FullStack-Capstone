@@ -22,11 +22,10 @@ export const PostProvider = (props) => {
             )
             .then((noteObj) => {
                 setNotes(noteObj)
-                console.log(noteObj)
             });
     };
 
-    const getNote = (id) => {
+    const getNoteById = (id) => {
         return getToken().then((token) =>
             fetch(`/api/note/${id}`, {
                 method: "GET",
@@ -37,7 +36,7 @@ export const PostProvider = (props) => {
         );
     };
 
-    const addNote = (note) => {
+    const addNote = (note, whiskeyId) => {
         return getToken().then((token) =>
             fetch("/api/note", {
                 method: "POST",
@@ -86,7 +85,7 @@ export const PostProvider = (props) => {
                 notes,
                 getAllNotes,
                 note,
-                getNote,
+                getNoteById,
                 addNote,
                 setSearchTerms,
                 searchTerms,

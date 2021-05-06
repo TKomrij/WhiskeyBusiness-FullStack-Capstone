@@ -9,6 +9,11 @@ import WhiskeyList from "./Whiskies/WhiskeyList";
 import WhiskeyDetails from "./Whiskies/WhiskeyDetails";
 import NoteProvider from "../Providers/NoteProvider";
 import NoteList from "./Notes/NoteList";
+import NoteForm from "./Notes/NoteForm";
+import NoteDelete from "./Notes/NoteDelete";
+import NoteEdit from "./Notes/NoteEdit";
+import TagProvider from "../Providers/TagProvider";
+import TagForm from "../Components/Tags/TagForm";
 
 
 export default function ApplicationViews() {
@@ -40,11 +45,29 @@ export default function ApplicationViews() {
                     </NoteProvider>
                 </Route>
 
-                {/* <Route path="/note/:id(\d+)" exact>
-                    <WhiskeyProvider>
-                        {isLoggedIn ? <WhiskeyDetails /> : <Redirect to="/login" />}
-                    </WhiskeyProvider>
-                </Route> */}
+                <Route path="/noteForm/:id(\d+)" exact>
+                    <NoteProvider>
+                        {isLoggedIn ? <NoteForm /> : <Redirect to="/login" />}
+                    </NoteProvider>
+                </Route>
+
+                <Route path="/note/delete/:id(\d+)" exact>
+                    <NoteProvider>
+                        {isLoggedIn ? <NoteDelete /> : <Redirect to="/login" />}
+                    </NoteProvider>
+                </Route>
+
+                <Route path="/note/edit/:id(\d+)" exact>
+                    <NoteProvider>
+                        {isLoggedIn ? <NoteEdit /> : <Redirect to="/login" />}
+                    </NoteProvider>
+                </Route>
+
+                <Route path="/tagForm/" exact>
+                    <TagProvider>
+                        {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
+                    </TagProvider>
+                </Route>
 
                 <Route path="/login">
                     <Login />

@@ -4,10 +4,11 @@ import Note from "./Note";
 
 export const NoteList = () => {
     const { notes, getAllNotes } = useContext(NoteContext);
+    const currentUser = JSON.parse(sessionStorage.getItem(`userProfile`))
+
 
     useEffect(() => {
         getAllNotes()
-        console.log(notes)
     }, []);
 
     // useEffect dependency array with dependencies - will run if dependency changes (state)
@@ -21,12 +22,11 @@ export const NoteList = () => {
     //     }
     // }, [searchTerms])
 
-
     return (
         <div className="container">
             <div className="row justify-content-center">
                 <div className="cards-column">
-                    {notes.map((note) => {
+                    {notes.filter(note => note.userProfileId === currentUser.id).map((note) => {
 
                         return <Note key={note.id} note={note} />
                     })}

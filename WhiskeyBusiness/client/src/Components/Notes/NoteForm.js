@@ -13,40 +13,40 @@ import { NoteContext } from "../../Providers/NoteProvider";
 import { useHistory, useParams } from "react-router-dom";
 import "./Note.css";
 
-export const NoteForm = () => {
+export const NoteForm = ({ whiskeyId }) => {
 
-    const { addNote, editNote, getNote } = useContext(NoteContext);
-    const currentUser = parseInt(localStorage.getItem("userProfile"))
+    const { addNote, editNote, getNoteById } = useContext(NoteContext);
+    const currentUser = JSON.parse(sessionStorage.getItem(`userProfile`))
 
     const history = useHistory();
     const noteId = parseInt(useParams().id);
 
     const [note, setNote] = useState({
-        id: "",
-        userProfileId: currentUser,
-        whiskeyId: 0,
+        userProfileId: currentUser.id,
+        whiskeyId: `${whiskeyId}`,
         description: "",
     });
 
-    const savePost = (e) => {
+    const saveNote = (e) => {
         e.preventDefault();
-        if (noteId) {
-            editNote({
-                id: note.id,
-                userProfileId: currentUser,
-                whiskeyId: note.whiskeyId,
-                description: note.description,
-            }).then(() => history.push(`/note/${noteId}`));
+        // if (noteId) {
+        //     editNote({
+        //         id: note.id,
+        //         userProfileId: currentUser.id,
+        //         whiskeyId: `${note.whiskeyId}`,
+        //         description: note.description,
+        //     }).then(() => history.push(`/notes`));
 
-        } else {
-            addNote({
-                userProfileId: parseInt(note.userProfileId),
-                descrition: post.description,
-                whiskeyId: parseInt(note.whiskeyId),
-            }).then(() => {
-                history.push("/note");
-            });
-        }
+        // } else {
+        addNote({
+            userProfileId: note.userProfileId,
+            description: note.description,
+            whiskeyId: note.whiskeyId,
+        }).then(() => {
+            history.push("/notes");
+        });
+        // }
+        // }
     };
 
 
@@ -62,13 +62,13 @@ export const NoteForm = () => {
     }
 
 
-    useEffect(() => {
-        if (noteId) {
-            getNote(noteId).then((note) => {
-                setNote(note);
-            });
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (noteId) {
+    //         getNoteById(noteId).then((note) => {
+    //             setNote(note);
+    //         });
+    //     }
+    // }, []);
 
     return (
         <div className="container pt-4">
@@ -76,7 +76,8 @@ export const NoteForm = () => {
                 <Card className="col-sm-12 col-lg-6">
                     <CardBody>
                         <h3 className="noteForm__title">
-                            {noteId ? <> Edit Post </> : <>New Post</>}
+                            {/* {noteId ? <> Edit Post </> : <>New Note</>} */}
+                            New Note
                         </h3>
                         <Form>
                             <FormGroup>
@@ -109,7 +110,8 @@ export const NoteForm = () => {
                             </FormGroup> */}
                         </Form>
                         <Button color="info" onClick={saveNote}>
-                            {noteId ? <> Save Changes </> : <>Add Note</>}
+                            {/* {noteId ? <> Save Changes </> : <>Add Note</>} */}
+                            Add Note
                         </Button>
                     </CardBody>
                 </Card>

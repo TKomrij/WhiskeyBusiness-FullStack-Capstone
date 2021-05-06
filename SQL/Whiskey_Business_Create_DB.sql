@@ -21,7 +21,7 @@ CREATE TABLE [Note] (
   [id] int PRIMARY KEY IDENTITY,
   [UserProfileId] int NOT NULL,
   [WhiskeyId] int NOT NULL,
-  [description] nvarchar(255) NOT NULL
+  [Description] nvarchar(255) NOT NULL
 )
 GO
 
@@ -41,7 +41,7 @@ GO
 
 CREATE TABLE [Tag] (
   [id] int PRIMARY KEY IDENTITY,
-  [name] nvarchar(255) NOT NULL
+  [Name] nvarchar(255) NOT NULL
 )
 GO
 

@@ -8,12 +8,11 @@ using WhiskeyBusiness.Utils;
 
 namespace WhiskeyBusiness.Repositories
 {
-    public class NoteRepository : BaseRepository, INoteRepository
+    public class TagRepository : BaseRepository, ITagRepository
     {
-        public NoteRepository(IConfiguration configuration) : base(configuration) { }
+        public TagRepository(IConfiguration configuration) : base(configuration) { }
 
-
-        public List<Note> GetAllNotes()
+        public List<Tag> GetAllTags()
         {
             using (var conn = Connection)
             {
@@ -21,28 +20,28 @@ namespace WhiskeyBusiness.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT Id , UserProfileId, WhiskeyId, Description
-                                        FROM Note";
-
+                        SELECT t.Id, t.Name
+                          FROM Tag t
+                         ORDER BY t.Name
+                    ";
                     var reader = cmd.ExecuteReader();
-                    var notes = new List<Note>();
+                    var tags = new List<Tag>();
                     while (reader.Read())
                     {
-                        notes.Add(new Note()
+                        tags.Add(new Tag()
                         {
                             Id = DbUtils.GetInt(reader, "Id"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            WhiskeyId = DbUtils.GetInt(reader, "WhiskeyId"),
-                            Description = DbUtils.GetString(reader, "Description"),
+                            Name = DbUtils.GetString(reader, "Name")
                         });
                     }
                     reader.Close();
-                    return notes;
+                    return tags;
                 }
+
             }
         }
 
-        public Note GetById(int id)
+        public Tag GetTagById(int id)
         {
             using (var conn = Connection)
             {
@@ -50,66 +49,66 @@ namespace WhiskeyBusiness.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT  Id , UserProfileId, WhiskeyId, Description
-                                        FROM Note";
-
-                    DbUtils.AddParameter(cmd, "@Id", id);
-
-                    var reader = cmd.ExecuteReader();
-                    Note note = null;
-                    while (reader.Read())
-                    {
-                        note = new Note()
-                        {
-                            Id = DbUtils.GetInt(reader, "Id"),
-                            UserProfileId = DbUtils.GetInt(reader, "UserProfileId"),
-                            WhiskeyId = DbUtils.GetInt(reader, "WhiskeyId"),
-                            Description = DbUtils.GetString(reader, "Description"),
-                        };
-                    }
-                    reader.Close();
-                    return note;
-                }
-            }
-        }
-
-        public void Add(Note note)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                        INSERT INTO Note (Description, WhiskeyID, UserProfileId)
-                        OUTPUT INSERTED.ID
-                        VALUES (@description, @whiskeyId, @userProfileId);";
-
-                    DbUtils.AddParameter(cmd, "@description", note.Description);
-                    DbUtils.AddParameter(cmd, "@userProfileId", note.UserProfileId);
-                    DbUtils.AddParameter(cmd, "@whiskeyId", note.WhiskeyId);
-
-
-                    note.Id = (int)cmd.ExecuteScalar();
-                }
-            }
-        }
-
-        public void Update(Note note)
-        {
-            using (var conn = Connection)
-            {
-                conn.Open();
-                using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = @"
-                        UPDATE Note
-                           SET Description = @description
+                        SELECT [Name]
+                          FROM Tag 
                          WHERE Id = @id
                     ";
 
-                    DbUtils.AddParameter(cmd, "@description", note.Description);
-                    DbUtils.AddParameter(cmd, "@id", note.Id);
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    var reader = cmd.ExecuteReader();
+
+                    Tag tag = null;
+                    while (reader.Read())
+                    {
+                        tag = new Tag()
+                        {
+                            Id = id,
+                            Name = DbUtils.GetString(reader, "Name")
+                        };
+                    }
+                    reader.Close();
+                    return tag;
+                }
+
+            }
+        }
+
+        public void Add(Tag tag)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        INSERT INTO Tag (Name)
+                               OUTPUT INSERTED.ID
+                        VALUES (@name)";
+
+                    DbUtils.AddParameter(cmd, "@name", tag.Name);
+
+                    tag.Id = (int)cmd.ExecuteScalar();
+
+                }
+            }
+        }
+
+        public void Update(Tag tag)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE Tag
+                           SET [Name] = @name
+                         WHERE Id = @id
+                    ";
+
+                    DbUtils.AddParameter(cmd, "@name", tag.Name);
+                    DbUtils.AddParameter(cmd, "@id", tag.Id);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -124,7 +123,7 @@ namespace WhiskeyBusiness.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        DELETE FROM Note
+                        DELETE FROM Tag
                               WHERE Id = @id 
                     ";
                     DbUtils.AddParameter(cmd, "@id", id);
@@ -134,5 +133,6 @@ namespace WhiskeyBusiness.Repositories
             }
         }
     }
+
 
 }

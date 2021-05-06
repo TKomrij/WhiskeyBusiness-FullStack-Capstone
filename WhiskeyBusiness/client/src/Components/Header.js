@@ -37,7 +37,7 @@ export default function Header() {
                                     <NavLink tag={RRNavLink} to="/notes">Notes</NavLink>
                                 </NavItem>
                                 <NavItem className="nav-items">
-                                    <NavLink tag={RRNavLink} to="/tags">Create a Tag</NavLink>
+                                    <NavLink tag={RRNavLink} to="/tagForm">Create a Tag</NavLink>
                                 </NavItem>
                             </>
                         }
