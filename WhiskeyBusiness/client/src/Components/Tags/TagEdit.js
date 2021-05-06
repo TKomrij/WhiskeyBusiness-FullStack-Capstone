@@ -1,27 +1,36 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TagContext } from "../../Providers/TagProvider";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
-import Tag from "./Tag"
 import "./Tags.css";
 
+export const TagEdit = () => {
 
-export const TagForm = () => {
-    const { tags, addTag, getTags } = useContext(TagContext);
+    const { getTagById, editTag } = useContext(TagContext);
+    const history = useHistory();
+    const tagId = useParams().id;
 
-    const [tag, setTags] = useState({
-        Name: ""
+    const [tag, setTag] = useState({
+        Name: "",
+        Id: tagId
     });
 
-    const history = useHistory();
+    console.log("Tag: ", tag);
+
+    useEffect(() => {
+        getTagById(tagId)
+            .then(tag => {
+                setTag(tag)
+            })
+    }, [])
 
     const handleControlledInputChange = (event) => {
         const newTag = { ...tag };
         let selectedVal = event.target.value;
         //The event.target.id is "name" (the form Input Id)
         newTag[event.target.id] = selectedVal
-        setTags(newTag);
+        setTag(newTag);
     }
 
     const handleClickSaveTag = (event) => {
@@ -29,14 +38,10 @@ export const TagForm = () => {
         if (tag.Name === "") {
             window.alert("Please provide a title for the tag you are trying to create.");
         } else {
-            addTag(tag)
+            editTag(tag)
                 .then(() => history.push("/tagForm"));
         }
     }
-
-    useEffect(() => {
-        getTags()
-    }, []);
 
     return (
         <>
@@ -48,15 +53,10 @@ export const TagForm = () => {
                         type="text"
                         onChange={handleControlledInputChange}></Input>
                     <Button className="a">Save</Button>
+                    <Button className="a" href="/tagForm">Go Back</Button>
                 </Form>
-                <h3>Already Created Tags</h3>
-                <div>
-                    {tags.map((tag) => {
-                        return <Tag key={tag.id} tag={tag} />
-                    })}
-                </div>
             </div>
         </>
     )
 }
-export default TagForm;
+export default TagEdit;

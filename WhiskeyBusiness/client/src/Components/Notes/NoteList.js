@@ -24,8 +24,9 @@ export const NoteList = () => {
 
     return (
         <div className="container">
-            <div className="row justify-content-center">
-                <div className="cards-column">
+            <div className="">
+                <h1>Tasting Notes</h1>
+                <div className="">
                     {notes.filter(note => note.userProfileId === currentUser.id).map((note) => {
 
                         return <Note key={note.id} note={note} />

@@ -14,6 +14,8 @@ import NoteDelete from "./Notes/NoteDelete";
 import NoteEdit from "./Notes/NoteEdit";
 import TagProvider from "../Providers/TagProvider";
 import TagForm from "../Components/Tags/TagForm";
+import TagDelete from "../Components/Tags/TagDelete";
+import TagEdit from "../Components/Tags/TagEdit";
 
 
 export default function ApplicationViews() {
@@ -68,6 +70,19 @@ export default function ApplicationViews() {
                         {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
                     </TagProvider>
                 </Route>
+
+                <Route path="/tag/edit/:id(\d+)" exact>
+                    <TagProvider>
+                        {isLoggedIn ? <TagEdit /> : <Redirect to="/login" />}
+                    </TagProvider>
+                </Route>
+
+                <Route path="/tag/delete/:id(\d+)" exact>
+                    <TagProvider>
+                        <TagDelete />
+                    </TagProvider>
+                </Route>
+
 
                 <Route path="/login">
                     <Login />

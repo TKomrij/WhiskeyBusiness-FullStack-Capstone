@@ -30,6 +30,7 @@ export const WhiskeyList = () => {
     if (whiskies != 0) {
         return (
             <section id="whiskeyContainer">
+                <h1>The Whiskies...</h1>
                 {whiskies.map((whiskey) => {
                     return <Whiskey key={whiskey.id} whiskey={whiskey} />
                 })}
