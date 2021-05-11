@@ -39,6 +39,9 @@ export default function Header() {
                                 <NavItem className="nav-items">
                                     <NavLink tag={RRNavLink} to="/tagForm">Create a Tag</NavLink>
                                 </NavItem>
+                                <NavItem className="nav-items">
+                                    <NavLink tag={RRNavLink} to="/favorites">Favorites</NavLink>
+                                </NavItem>
                             </>
                         }
                     </Nav>
@@ -48,6 +51,9 @@ export default function Header() {
                                 <NavItem>
                                     <a aria-current="page" className="nav-link"
                                         style={{ cursor: "pointer" }} onClick={logout}>Logout</a>
+                                </NavItem>
+                                <NavItem>
+                                    <img src={userProfile.imageUrl} alt="user" />
                                 </NavItem>
                             </>
                         }

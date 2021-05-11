@@ -1,3 +1,11 @@
 #whiskeyCard {
     border: 1px solid black;
 } 
+
+.activeFavoriteButton {
+    background-color: red;
+}
+
+.inactiveFavoriteButton {
+    background-color: white;
+}

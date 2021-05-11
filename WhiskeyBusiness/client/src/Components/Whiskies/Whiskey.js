@@ -1,14 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardImg, CardBody, Button } from "reactstrap";
+import { WhiskeyContext } from "../../Providers/WhiskeyProvider";
+import { FavoriteContext } from "../../Providers/FavoriteProvider";
 import "./WhiskeyCard.css"
 
 
 export const Whiskey = ({ whiskey }) => {
 
+    const { favoriteCheck } = useContext(FavoriteContext);
+    const [favoriteFlag, setFavoriteFlag] = useState();
+    const currentUser = JSON.parse(sessionStorage.getItem("userProfile"))
+
+    useEffect(() => {
+        setFavoriteFlag(favoriteCheck(currentUser.id, whiskey.id))
+
+    }, [])
+
     if (whiskey.img_url != null) {
         return (
             <div id="whiskeyCard">
+                <button className={favoriteFlag ? "activeFavoriteButton" : "inactiveFavoriteButton"}>Favorite</button>
                 <p>
                     <Link to={`/whiskey/${whiskey.id}`}>
                         <strong>{whiskey.title}</strong>
@@ -29,6 +41,7 @@ export const Whiskey = ({ whiskey }) => {
     } else {
         return (
             <div id="whiskeyCard">
+                <button>Favorite</button>
                 <p>
                     <Link to={`/whiskey/${whiskey.id}`}>
                         <strong>{whiskey.title}</strong>

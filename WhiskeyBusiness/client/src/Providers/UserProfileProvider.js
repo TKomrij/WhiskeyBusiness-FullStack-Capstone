@@ -89,3 +89,5 @@ export function UserProfileProvider(props) {
         </UserProfileContext.Provider>
     );
 }
+
+export default UserProfileProvider;

@@ -10,14 +10,11 @@ export const NoteEdit = () => {
     const { getNoteById, editNote } = useContext(NoteContext);
     const history = useHistory();
     const noteId = useParams().id;
-    console.log("noteId: ", noteId);
 
     const [note, setNote] = useState({
-        Description: "",
-        Id: noteId
+        description: "",
+        id: noteId
     });
-
-    console.log("Note: ", note);
 
     useEffect(() => {
         getNoteById(noteId)
@@ -36,7 +33,7 @@ export const NoteEdit = () => {
 
     const handleClickSaveNote = (event) => {
         event.preventDefault();
-        if (note.Description === "") {
+        if (note.description === "") {
             window.alert("Please provide a description for the note you are trying to create.");
         } else {
             editNote(note)
@@ -49,11 +46,11 @@ export const NoteEdit = () => {
             <div>
                 <Form className="addNoteDiv" onSubmit={handleClickSaveNote}>
                     <Label for="noteInput">New Description</Label>
-                    <Input id="Descrition"
+                    <Input id="description"
                         placeholder="Enter Description"
                         type="text"
                         onChange={handleControlledInputChange}></Input>
-                    <Button className="a">Save</Button>
+                    <Button className="a" type="submit">Save</Button>
                     <Button className="a" href="/notes">Go Back</Button>
                 </Form>
             </div>

@@ -4,6 +4,7 @@ import { UserProfileProvider } from "./Providers/UserProfileProvider";
 import ApplicationViews from "./Components/ApplicationViews";
 import Header from "./Components/Header";
 
+
 function App() {
   return (
     <Router>

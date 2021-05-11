@@ -2,39 +2,58 @@ import React, { useContext, useEffect } from "react";
 import { CardDeck } from "react-bootstrap";
 import { WhiskeyContext } from "../../Providers/WhiskeyProvider";
 import Whiskey from "./Whiskey";
-import "./Whiskey.css"
+import "./Search.css";
 
 
 
 export const WhiskeyList = () => {
-    const { whiskies, getAllWhiskies, setWhiskies } = useContext(WhiskeyContext);
+    const { whiskies, getAllWhiskies, setWhiskies, nextList, prevList, searchWhiskies } = useContext(WhiskeyContext);
 
     useEffect(() => {
         getAllWhiskies()
 
     }, []);
 
-    useEffect(() => { console.log(whiskies) }, [whiskies])
+    const scrollToRef = (ref) =>
+        window.scrollTo(0, ref.current)
 
-    // useEffect dependency array with dependencies - will run if dependency changes (state)
-    // searchTerms will cause a change
+    //handles the search fuction for the list of whiskies
+    const handleClickSearchList = (event) => {
+        event.preventDefault()
 
-    // useEffect(() => {
-    //     if (searchTerms !== "") {
-    //         searchPosts(searchTerms)
-    //     } else {
-    //         getPostsWithComments()
-    //     }
-    // }, [searchTerms])
+        const searchTerm = document.querySelector("#title").value
+
+        if (searchTerm === "") {
+            getAllWhiskies()
+                .then(setWhiskies)
+        } else {
+            searchWhiskies(searchTerm)
+                .then(setWhiskies)
+        }
+    }
+
+
 
     if (whiskies != 0) {
         return (
-            <section id="whiskeyContainer">
-                <h1>The Whiskies...</h1>
-                {whiskies.map((whiskey) => {
-                    return <Whiskey key={whiskey.id} whiskey={whiskey} />
-                })}
-            </section>
+            <>
+                <fieldset>
+                    <input type="text" id="title" autoFocus className="form-search" placeholder="Title" />
+                    <button className="search-button" onClick={handleClickSearchList}>Search Whiskies</button>
+                </fieldset>
+                <section id="whiskeyContainer">
+                    <h1>The Whiskies...</h1>
+                    {whiskies.map((whiskey) => {
+                        return <Whiskey key={whiskey.id} whiskey={whiskey} />
+                    })}
+
+                </section>
+                <div>
+                    <button className="prevPage" onClick={prevList}>Previous Page</button>
+
+                    <button className="nextPage" onClick={(event) => { nextList(); scrollToRef(whiskies) }}>Next Page</button>
+                </div>
+            </>
         );
     } else {
         return (

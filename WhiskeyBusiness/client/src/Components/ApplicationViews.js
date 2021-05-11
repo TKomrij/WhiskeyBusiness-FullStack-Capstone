@@ -16,6 +16,8 @@ import TagProvider from "../Providers/TagProvider";
 import TagForm from "../Components/Tags/TagForm";
 import TagDelete from "../Components/Tags/TagDelete";
 import TagEdit from "../Components/Tags/TagEdit";
+import FavoriteList from "./Favorites/FavoriteList";
+import FavoriteProvider from "../Providers/FavoriteProvider";
 
 
 export default function ApplicationViews() {
@@ -31,7 +33,9 @@ export default function ApplicationViews() {
 
                 <Route path="/whiskey" exact>
                     <WhiskeyProvider>
-                        {isLoggedIn ? <WhiskeyList /> : <Redirect to="/login" />}
+                        <FavoriteProvider>
+                            {isLoggedIn ? <WhiskeyList /> : <Redirect to="/login" />}
+                        </FavoriteProvider>
                     </WhiskeyProvider>
                 </Route>
 
@@ -43,13 +47,17 @@ export default function ApplicationViews() {
 
                 <Route path="/notes" exact>
                     <NoteProvider>
-                        {isLoggedIn ? <NoteList /> : <Redirect to="/login" />}
+                        <WhiskeyProvider>
+                            {isLoggedIn ? <NoteList /> : <Redirect to="/login" />}
+                        </WhiskeyProvider>
                     </NoteProvider>
                 </Route>
 
                 <Route path="/noteForm/:id(\d+)" exact>
                     <NoteProvider>
-                        {isLoggedIn ? <NoteForm /> : <Redirect to="/login" />}
+                        <WhiskeyProvider>
+                            {isLoggedIn ? <NoteForm /> : <Redirect to="/login" />}
+                        </WhiskeyProvider>
                     </NoteProvider>
                 </Route>
 
@@ -65,7 +73,7 @@ export default function ApplicationViews() {
                     </NoteProvider>
                 </Route>
 
-                <Route path="/tagForm/" exact>
+                <Route path="/tagForm" exact>
                     <TagProvider>
                         {isLoggedIn ? <TagForm /> : <Redirect to="/login" />}
                     </TagProvider>
@@ -81,6 +89,12 @@ export default function ApplicationViews() {
                     <TagProvider>
                         <TagDelete />
                     </TagProvider>
+                </Route>
+
+                <Route path="/favorites" exact>
+                    <FavoriteProvider>
+                        <FavoriteList />
+                    </FavoriteProvider>
                 </Route>
 
 

@@ -35,19 +35,7 @@ export const WhiskeyProvider = (props) => {
                 },
             }).then((res) => res.json())
         )
-            .then((whiskeyObj) => {
-                console.log(whiskeyObj)
-                setWhiskey(whiskeyObj)
-            });
     };
-
-
-    const searchWhiskies = (searchTerms) => {
-        return fetch(`/api/whiskey/search?q=${searchTerms}`)
-            .then((res) => res.json())
-            .then(setWhiskies);
-    };
-
 
     const getMyWhiskies = () => {
         return getToken()
@@ -63,6 +51,33 @@ export const WhiskeyProvider = (props) => {
     };
 
 
+    const nextList = () => {
+        if (whiskies.next !== null) {
+            fetch(`${whiskies?.next}`)
+                .then(response => response.json())
+                .then(setWhiskies)
+        }
+    }
+
+    //fetches the previous set of whiskies
+    const prevList = () => {
+        if (whiskies.previous !== null) {
+            fetch(`${whiskies?.previous}`)
+                .then(response => response.json())
+                .then(setWhiskies)
+        }
+    }
+
+    //allow for the searching of games through the list
+    const searchWhiskies = (term) => {
+        if (term != "") {
+            return fetch(`${api}?search=${term}&page_size=50`)
+                .then(response => response.json())
+                .then(setWhiskies)
+        }
+    }
+
+
     return (
         <WhiskeyContext.Provider
             value={{
@@ -75,6 +90,8 @@ export const WhiskeyProvider = (props) => {
                 searchTerms,
                 getMyWhiskies,
                 setWhiskey,
+                nextList,
+                prevList,
             }}
         >
             {props.children}

@@ -10,25 +10,30 @@ import {
     Button,
 } from "reactstrap";
 import { NoteContext } from "../../Providers/NoteProvider";
+import { TagContext } from "../../Providers/TagProvider";
+import { WhiskeyContext } from "../../Providers/WhiskeyProvider";
 import { useHistory, useParams } from "react-router-dom";
 import "./Note.css";
 
-export const NoteForm = ({ whiskeyId }) => {
+export const NoteForm = () => {
 
     const { addNote, editNote, getNoteById } = useContext(NoteContext);
+    // const { tags, getTags } = useContext(TagContext);
+    const { whiskey, getWhiskey, setWhiskey } = useContext(WhiskeyContext);
     const currentUser = JSON.parse(sessionStorage.getItem(`userProfile`))
+    const { id } = useParams();
 
     const history = useHistory();
     const noteId = parseInt(useParams().id);
 
     const [note, setNote] = useState({
         userProfileId: currentUser.id,
-        whiskeyId: `${whiskeyId}`,
+        whiskeyId: `${id}`,
         description: "",
     });
 
     const saveNote = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         // if (noteId) {
         //     editNote({
         //         id: note.id,
@@ -62,13 +67,14 @@ export const NoteForm = ({ whiskeyId }) => {
     }
 
 
-    // useEffect(() => {
-    //     if (noteId) {
-    //         getNoteById(noteId).then((note) => {
-    //             setNote(note);
-    //         });
-    //     }
-    // }, []);
+    useEffect(() => {
+        getWhiskey(id)
+            .then((whiskeyObj) => {
+                setWhiskey(whiskeyObj)
+            });
+    }, []);
+
+    // useEffect(() => { console.log(whiskey) }, [whiskey])
 
     return (
         <div className="container pt-4">
@@ -77,7 +83,7 @@ export const NoteForm = ({ whiskeyId }) => {
                     <CardBody>
                         <h3 className="noteForm__title">
                             {/* {noteId ? <> Edit Post </> : <>New Note</>} */}
-                            New Note
+                            New Note for {whiskey.title}
                         </h3>
                         <Form>
                             <FormGroup>

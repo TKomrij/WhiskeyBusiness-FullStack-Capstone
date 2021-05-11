@@ -3,7 +3,7 @@ import { UserProfileContext } from "./UserProfileProvider";
 
 export const NoteContext = React.createContext();
 
-export const PostProvider = (props) => {
+export const NoteProvider = (props) => {
     const { getToken } = useContext(UserProfileContext);
     const [notes, setNotes] = useState([]);
     const [note, setNote] = useState({});
@@ -63,6 +63,7 @@ export const PostProvider = (props) => {
                     },
                     body: JSON.stringify(note),
                 })
+                    .then(getAllNotes)
             )
     };
 
@@ -98,4 +99,4 @@ export const PostProvider = (props) => {
         </NoteContext.Provider>
     );
 };
-export default PostProvider;
+export default NoteProvider;

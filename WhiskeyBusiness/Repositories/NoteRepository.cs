@@ -22,7 +22,8 @@ namespace WhiskeyBusiness.Repositories
                 {
                     cmd.CommandText = @"
                                         SELECT Id , UserProfileId, WhiskeyId, Description
-                                        FROM Note";
+                                        FROM Note
+                                        ORDER BY Id DESC";
 
                     var reader = cmd.ExecuteReader();
                     var notes = new List<Note>();

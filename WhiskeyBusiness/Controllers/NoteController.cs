@@ -62,7 +62,7 @@ namespace WhiskeyBusiness.Controllers
             }
 
             _noteRepository.Update(note);
-            return NoContent();
+            return Ok(_noteRepository.GetAllNotes());
         }
 
 
