@@ -52,8 +52,9 @@ namespace WhiskeyBusiness.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                                        SELECT  Id , UserProfileId, WhiskeyId, Description
-                                        FROM Note";
+                                        SELECT Id, UserProfileId, WhiskeyId, Description
+                                        FROM Note
+                                        WHERE Id = @id";
 
                     DbUtils.AddParameter(cmd, "@Id", id);
 
@@ -126,6 +127,8 @@ namespace WhiskeyBusiness.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
+                        DELETE FROM TagNote
+                            WHERE NoteId = @id;
                         DELETE FROM Note
                               WHERE Id = @id 
                     ";

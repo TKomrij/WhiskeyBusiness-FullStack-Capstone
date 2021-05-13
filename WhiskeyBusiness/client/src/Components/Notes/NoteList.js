@@ -11,9 +11,6 @@ export const NoteList = () => {
         getAllNotes()
     }, []);
 
-    useEffect(() => {
-        console.log(notes)
-    })
     // useEffect dependency array with dependencies - will run if dependency changes (state)
     // searchTerms will cause a change
 

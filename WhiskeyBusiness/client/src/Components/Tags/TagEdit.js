@@ -33,7 +33,7 @@ export const TagEdit = () => {
 
     const handleClickSaveTag = (event) => {
         event.preventDefault();
-        if (tag.Name === "") {
+        if (tag.name === "") {
             window.alert("Please provide a title for the tag you are trying to create.");
         } else {
             editTag(tag)
@@ -48,6 +48,7 @@ export const TagEdit = () => {
                     <Label for="tagInput">New Tag Name</Label>
                     <Input id="Name"
                         placeholder="Enter Tag Name"
+                        value={tag.name}
                         type="text"
                         onChange={handleControlledInputChange}></Input>
                     <Button className="a">Save</Button>

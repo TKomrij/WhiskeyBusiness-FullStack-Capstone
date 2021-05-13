@@ -35,11 +35,6 @@ export const Note = ({ note }) => {
         }
     }
 
-
-    useEffect(() => {
-        console.log(noteTags)
-    }, [noteTags])
-
     if (currentWhiskey) {
         return (
             <Card className="m-4">

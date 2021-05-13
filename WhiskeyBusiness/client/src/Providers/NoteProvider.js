@@ -26,14 +26,15 @@ export const NoteProvider = (props) => {
     };
 
     const getNoteById = (id) => {
-        return getToken().then((token) =>
-            fetch(`/api/note/${id}`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }).then((res) => res.json())
-        );
+        return getToken()
+            .then((token) =>
+                fetch(`/api/note/${id}`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }).then((res) => res.json())
+            );
     };
 
     const addNote = (note) => {

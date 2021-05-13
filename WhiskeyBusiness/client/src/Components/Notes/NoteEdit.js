@@ -22,6 +22,7 @@ export const NoteEdit = () => {
             })
     }, [])
 
+
     const handleControlledInputChange = (event) => {
         const newNote = { ...note };
         let selectedVal = event.target.value;
@@ -47,6 +48,7 @@ export const NoteEdit = () => {
                     <Label for="noteInput">New Description</Label>
                     <Input id="description"
                         placeholder="Enter Description"
+                        value={note.description}
                         type="text"
                         onChange={handleControlledInputChange}></Input>
                     <Button className="a" type="submit">Save</Button>
