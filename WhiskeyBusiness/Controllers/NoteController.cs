@@ -18,20 +18,24 @@ namespace WhiskeyBusiness.Controllers
     {
         private readonly INoteRepository _noteRepository;
         private readonly IUserProfileRepository _userProfileRepository;
+        private readonly ITagNoteRepository _tagNoteRepository;
 
 
         public NoteController(
             INoteRepository noteRepository,
-            IUserProfileRepository userProfileRepository)
+            IUserProfileRepository userProfileRepository,
+            ITagNoteRepository tagNoteRepository)
         {
             _noteRepository = noteRepository;
             _userProfileRepository = userProfileRepository;
+            _tagNoteRepository = tagNoteRepository;
         }
 
 
         [HttpGet]
         public IActionResult Get()
         {
+
             return Ok(_noteRepository.GetAllNotes());
         }
 
@@ -72,6 +76,23 @@ namespace WhiskeyBusiness.Controllers
             _noteRepository.Delete(id);
             return NoContent();
         }
+
+
+
+        //[HttpDelete("{noteId}/{tagId}")]
+        //public IActionResult Delete(int noteId, int tagId)
+        //{
+         //   _noteRepository.DeleteTag(noteId, tagId);
+          //  return NoContent();
+       // }
+
+
+       // [HttpPut]
+        //public IActionResult Put(Note note, Tag tag)
+       // {
+         //   _noteRepository.InsertTag(note, tag);
+          //  return Ok(_noteRepository.GetAllNotes());
+       // }
 
 
         [HttpGet("{id}")]

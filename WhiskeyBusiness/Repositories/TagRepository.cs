@@ -41,6 +41,42 @@ namespace WhiskeyBusiness.Repositories
             }
         }
 
+        public List<Tag> GetTagsByNoteId(int id)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        SELECT t.Id, t.Name,
+                        tn.NoteId AS TagNoteNoteId, tn.TagId,
+                        n.Id AS NoteId
+                        FROM Tag t
+                        JOIN TagNote tn ON tn.TagId = t.Id
+                        JOIN Note n ON n.Id = tn.NoteId
+                        WHERE tn.NoteId = @id";
+
+                    DbUtils.AddParameter(cmd, "@id", id);
+
+                    var reader = cmd.ExecuteReader();
+                    var tags = new List<Tag>();
+                    while (reader.Read())
+                    {
+                        tags.Add(new Tag()
+                        {
+                            Id = DbUtils.GetInt(reader, "Id"),
+                            Name = DbUtils.GetString(reader, "Name")
+                        });
+                    }
+                    reader.Close();
+                    return tags;
+                }
+
+            }
+        }
+
+
         public Tag GetTagById(int id)
         {
             using (var conn = Connection)

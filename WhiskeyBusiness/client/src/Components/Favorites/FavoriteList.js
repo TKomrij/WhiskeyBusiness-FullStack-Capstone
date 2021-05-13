@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useParams } from "react";
+import React, { useContext, useEffect } from "react";
 import { FavoriteContext } from "../../Providers/FavoriteProvider";
 import { FavoriteCard } from "./FavoriteCard";
 

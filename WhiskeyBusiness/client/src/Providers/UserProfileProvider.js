@@ -8,7 +8,7 @@ export const UserProfileContext = createContext();
 export function UserProfileProvider(props) {
     const apiUrl = "/api/userProfile";
     const userProfile = sessionStorage.getItem("userProfile");
-    const [userProfiles, setUserProfiles] = useState([]);
+    const [setUserProfiles] = useState([]);
     const [isLoggedIn, setIsLoggedIn] = useState(userProfile != null);
     const getToken = () => firebase.auth().currentUser.getIdToken();
 

@@ -9,6 +9,7 @@ namespace WhiskeyBusiness.Repositories
         void Delete(int id);
         List<Tag> GetAllTags();
         Tag GetTagById(int id);
+        List<Tag> GetTagsByNoteId(int id);
         void Update(Tag tag);
     }
 }

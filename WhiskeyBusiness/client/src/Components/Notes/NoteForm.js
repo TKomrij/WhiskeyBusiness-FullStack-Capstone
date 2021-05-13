@@ -14,17 +14,21 @@ import { TagContext } from "../../Providers/TagProvider";
 import { WhiskeyContext } from "../../Providers/WhiskeyProvider";
 import { useHistory, useParams } from "react-router-dom";
 import "./Note.css";
+import { TagNoteContext } from "../../Providers/TagNoteProvider";
 
 export const NoteForm = () => {
 
-    const { addNote, editNote, getNoteById } = useContext(NoteContext);
-    // const { tags, getTags } = useContext(TagContext);
+    const { addNote } = useContext(NoteContext);
+    const { tags, getTags } = useContext(TagContext);
+    const { addTagNote } = useContext(TagNoteContext);
     const { whiskey, getWhiskey, setWhiskey } = useContext(WhiskeyContext);
     const currentUser = JSON.parse(sessionStorage.getItem(`userProfile`))
     const { id } = useParams();
 
     const history = useHistory();
-    const noteId = parseInt(useParams().id);
+
+
+
 
     const [note, setNote] = useState({
         userProfileId: currentUser.id,
@@ -32,31 +36,25 @@ export const NoteForm = () => {
         description: "",
     });
 
+    const [tagNote, setTagNote] = useState({
+        noteId: note.id,
+        tagId: 0
+    });
+
     const saveNote = (e) => {
         e.preventDefault()
-        // if (noteId) {
-        //     editNote({
-        //         id: note.id,
-        //         userProfileId: currentUser.id,
-        //         whiskeyId: `${note.whiskeyId}`,
-        //         description: note.description,
-        //     }).then(() => history.push(`/notes`));
 
-        // } else {
-        addNote({
-            userProfileId: note.userProfileId,
-            description: note.description,
-            whiskeyId: note.whiskeyId,
-        }).then(() => {
-            history.push("/notes");
+        addNote(note).then((results) => {
+            addTagNote({
+                noteId: results.id,
+                tagId: tagNote.tagId
+            })
+            history.push("/notes")
         });
-        // }
-        // }
     };
 
 
     const handleInputChange = (event) => {
-
         const newNote = { ...note }
         let selectedVal = event.target.value
         if (event.target.id.includes("id")) {
@@ -66,12 +64,24 @@ export const NoteForm = () => {
         setNote(newNote)
     }
 
+    const handleInputChangeTagNote = (event) => {
+        const newTagNote = { ...tagNote }
+        let selectedVal = event.target.value
+        if (event.target.id.includes("id")) {
+            selectedVal = parseInt(selectedVal)
+        }
+        newTagNote[event.target.id] = selectedVal
+        setTagNote(newTagNote)
+    }
+
 
     useEffect(() => {
         getWhiskey(id)
             .then((whiskeyObj) => {
                 setWhiskey(whiskeyObj)
+                console.log(whiskeyObj)
             });
+        getTags()
     }, []);
 
     // useEffect(() => { console.log(whiskey) }, [whiskey])
@@ -98,22 +108,22 @@ export const NoteForm = () => {
                                 />
                             </FormGroup>
 
-                            {/* <FormGroup>
+                            <FormGroup>
                                 <Input
                                     type="select"
-                                    value={post.categoryId}
-                                    name="categoryId"
-                                    id="categoryId"
-                                    onChange={handleInputChange}
+                                    value={tagNote.tagId}
+                                    name="tagId"
+                                    id="tagId"
+                                    onChange={handleInputChangeTagNote}
                                 >
-                                    <option value="0">Select a Category</option>
-                                    {categories.map((c) => (
+                                    <option value="0">Select a Tag</option>
+                                    {tags.map((c) => (
                                         <option key={c.id} value={c.id}>
                                             {c.name}
                                         </option>
                                     ))}
                                 </Input>
-                            </FormGroup> */}
+                            </FormGroup>
                         </Form>
                         <Button color="info" onClick={saveNote}>
                             {/* {noteId ? <> Save Changes </> : <>Add Note</>} */}

@@ -1,7 +1,6 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext } from "react";
 import { WhiskeyContext } from "../../Providers/WhiskeyProvider";
-import { useParams, Link } from "react-router-dom";
-import Whiskey from "./Whiskey";
+import { useParams } from "react-router-dom";
 import Comparable from "./Comparable";
 import Review from "./Review";
 

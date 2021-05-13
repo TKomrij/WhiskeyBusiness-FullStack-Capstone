@@ -8,7 +8,6 @@ export const WhiskeyProvider = (props) => {
     const { getToken } = useContext(UserProfileContext);
     const [whiskies, setWhiskies] = useState([]);
     const [whiskey, setWhiskey] = useState({});
-    const [searchTerms, setSearchTerms] = useState("");
 
     const getAllWhiskies = () => {
         return getToken()
@@ -40,7 +39,7 @@ export const WhiskeyProvider = (props) => {
     const getMyWhiskies = () => {
         return getToken()
             .then((token) =>
-                fetch("/api/whiskey/MyWhiskies", {
+                fetch("api/whiskey/MyWhiskies", {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -51,31 +50,18 @@ export const WhiskeyProvider = (props) => {
     };
 
 
-    const nextList = () => {
-        if (whiskies.next !== null) {
-            fetch(`${whiskies?.next}`)
-                .then(response => response.json())
-                .then(setWhiskies)
-        }
-    }
-
-    //fetches the previous set of whiskies
-    const prevList = () => {
-        if (whiskies.previous !== null) {
-            fetch(`${whiskies?.previous}`)
-                .then(response => response.json())
-                .then(setWhiskies)
-        }
-    }
-
-    //allow for the searching of games through the list
-    const searchWhiskies = (term) => {
-        if (term != "") {
-            return fetch(`${api}?search=${term}&page_size=50`)
-                .then(response => response.json())
-                .then(setWhiskies)
-        }
-    }
+    const addWhiskey = (whiskey) => {
+        return getToken().then((token) =>
+            fetch("api/whiskey", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(whiskey),
+            })
+        );
+    };
 
 
     return (
@@ -85,13 +71,9 @@ export const WhiskeyProvider = (props) => {
                 getAllWhiskies,
                 whiskey,
                 getWhiskey,
-                searchWhiskies,
-                setSearchTerms,
-                searchTerms,
                 getMyWhiskies,
                 setWhiskey,
-                nextList,
-                prevList,
+                addWhiskey
             }}
         >
             {props.children}

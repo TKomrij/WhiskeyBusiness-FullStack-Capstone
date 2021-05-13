@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { TagContext } from "../../Providers/TagProvider";
-import { Link, useHistory, useParams } from "react-router-dom";
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { useHistory, useParams } from "react-router-dom";
+import { Button } from 'reactstrap'
 import "./Tags.css";
 
 export const TagDelete = () => {

@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TagContext } from "../../Providers/TagProvider";
 import { useHistory, useParams } from "react-router-dom";
-import { Link } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Button, Form, Label, Input } from 'reactstrap'
 import "./Tags.css";
 
 export const TagEdit = () => {
@@ -16,7 +15,6 @@ export const TagEdit = () => {
         Id: tagId
     });
 
-    console.log("Tag: ", tag);
 
     useEffect(() => {
         getTagById(tagId)

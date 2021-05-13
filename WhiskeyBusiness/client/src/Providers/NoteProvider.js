@@ -36,7 +36,7 @@ export const NoteProvider = (props) => {
         );
     };
 
-    const addNote = (note, whiskeyId) => {
+    const addNote = (note) => {
         return getToken().then((token) =>
             fetch("/api/note", {
                 method: "POST",
@@ -46,8 +46,17 @@ export const NoteProvider = (props) => {
                 },
                 body: JSON.stringify(note),
             })
+                .then((results) => {
+                    return results.json()
+                })
+                .then((data) => {
+                    return data
+                })
+
         );
     };
+
+
 
 
     // fetching filtered posts belonging to the current user

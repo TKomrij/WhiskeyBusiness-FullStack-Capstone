@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { NoteContext } from "../../Providers/NoteProvider";
 import { useHistory, useParams } from "react-router-dom";
-import { Link } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Button, Form, Label, Input } from 'reactstrap'
 import "./Note.css";
 
 export const NoteEdit = () => {

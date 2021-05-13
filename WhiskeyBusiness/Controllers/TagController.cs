@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace WhiskeyBusiness.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class TagController : ControllerBase
     {
         private readonly ITagRepository _tagRepository;
@@ -37,6 +39,19 @@ namespace WhiskeyBusiness.Controllers
                 return NotFound();
             }
             return Ok(tag);
+        }
+
+
+  
+        [HttpGet("noteTags/{id}")]
+        public IActionResult GetTags(int id)
+        {
+            var tags = _tagRepository.GetTagsByNoteId(id);
+            if (tags == null)
+            {
+                return Ok(null);
+            }
+            return Ok(tags);
         }
 
         // https://localhost:5001/api/tag

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { UserProfileContext, UserProfileProvider } from "../Providers/UserProfileProvider";
+import { UserProfileContext } from "../Providers/UserProfileProvider";
 import Login from "./Login/Login"
 import Register from "./Login/Register"
 import Hello from "./Hello";
@@ -18,6 +18,7 @@ import TagDelete from "../Components/Tags/TagDelete";
 import TagEdit from "../Components/Tags/TagEdit";
 import FavoriteList from "./Favorites/FavoriteList";
 import FavoriteProvider from "../Providers/FavoriteProvider";
+import TagNoteProvider from "../Providers/TagNoteProvider";
 
 
 export default function ApplicationViews() {
@@ -48,7 +49,9 @@ export default function ApplicationViews() {
                 <Route path="/notes" exact>
                     <NoteProvider>
                         <WhiskeyProvider>
-                            {isLoggedIn ? <NoteList /> : <Redirect to="/login" />}
+                            <TagProvider>
+                                {isLoggedIn ? <NoteList /> : <Redirect to="/login" />}
+                            </TagProvider>
                         </WhiskeyProvider>
                     </NoteProvider>
                 </Route>
@@ -56,7 +59,11 @@ export default function ApplicationViews() {
                 <Route path="/noteForm/:id(\d+)" exact>
                     <NoteProvider>
                         <WhiskeyProvider>
-                            {isLoggedIn ? <NoteForm /> : <Redirect to="/login" />}
+                            <TagProvider>
+                                <TagNoteProvider>
+                                    {isLoggedIn ? <NoteForm /> : <Redirect to="/login" />}
+                                </TagNoteProvider>
+                            </TagProvider>
                         </WhiskeyProvider>
                     </NoteProvider>
                 </Route>

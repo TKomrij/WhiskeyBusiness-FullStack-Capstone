@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { TagContext } from "../../Providers/TagProvider";
 import { useHistory } from "react-router-dom";
-import { Link } from 'react-router-dom';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Button, Form, Label, Input } from 'reactstrap'
 import Tag from "./Tag"
 import "./Tags.css";
 

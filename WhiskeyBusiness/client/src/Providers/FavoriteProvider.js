@@ -43,16 +43,28 @@ export const FavoriteProvider = (props) => {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
                     },
-                }).then((res) => console.log(res.json))
-
+                }).then((res) => res.json())
             )
+    };
+
+    const addFavorite = (favorite) => {
+        return getToken().then((token) =>
+            fetch("/api/favorite", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(favorite),
+            })
+        );
     };
 
 
 
     return (
         <FavoriteContext.Provider value={{
-            favorites, getAllFavorites, getAllFavoritedWhiskieByUserProfileId, favoriteCheck
+            favorites, getAllFavorites, getAllFavoritedWhiskieByUserProfileId, favoriteCheck, addFavorite
         }}>
             {props.children}
         </FavoriteContext.Provider>

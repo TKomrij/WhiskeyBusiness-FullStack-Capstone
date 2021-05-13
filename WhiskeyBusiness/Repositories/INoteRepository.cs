@@ -10,5 +10,8 @@ namespace WhiskeyBusiness.Repositories
         void Add(Note note);
         void Delete(int id);
         void Update(Note note);
+        void InsertTag(Note note, Tag tag);
+        void DeleteTag(int noteId, int tagId);
+
     }
 }

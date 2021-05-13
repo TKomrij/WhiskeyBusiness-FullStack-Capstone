@@ -13,5 +13,7 @@ namespace WhiskeyBusiness.Models
 
         [Required]
         public string Description { get; set; }
+
+        // public TagNote tagNote { get; set; }
     }
 }

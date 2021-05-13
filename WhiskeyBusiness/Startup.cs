@@ -26,6 +26,8 @@ namespace WhiskeyBusiness
             services.AddTransient<INoteRepository, NoteRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
             services.AddTransient<IFavoriteRepository, FavoriteRepository>();
+            services.AddTransient<IWhiskeyRepository, WhiskeyRepository>();
+            services.AddTransient<ITagNoteRepository, TagNoteRepository>();
 
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";

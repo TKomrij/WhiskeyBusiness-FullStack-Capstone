@@ -13,7 +13,7 @@ namespace WhiskeyBusiness.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class FavoriteController : Controller
     {
 
@@ -41,6 +41,13 @@ namespace WhiskeyBusiness.Controllers
             }
             return Ok(_favoriteRepository.GetFavoritedWhiskiesByUserProfileId(id));
 
+        }
+
+        [HttpPost]
+        public IActionResult Favorite(Favorite favorite)
+        {
+            _favoriteRepository.Add(favorite);
+            return CreatedAtAction("Get", new { id = favorite.Id }, favorite);
         }
 
         [HttpGet("check/{userProfileId}/{whiskeyApiId}")]

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, CardImg, CardBody, Button } from "reactstrap";
+import { Button } from "reactstrap";
 import "./WhiskeyCard.css"
 
 
